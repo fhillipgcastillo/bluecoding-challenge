@@ -14,7 +14,7 @@ services:
       - ./frontend/src:/usr/app/src
       - ./frontend/public:/usr/app/public
     depends_on:
-      - server
+      - backend
     environment:
       - REACT_APP_SERVER=http://localhost:5000
       - CHOKIDAR_USEPOLLING=true
@@ -61,6 +61,8 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    depends_on:
+      - db
 
 networks:
   mern-network:
