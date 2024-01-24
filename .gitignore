@@ -3,3 +3,5 @@ node_modules
 
 # mongo docker data
 /data/db
+
+.env
