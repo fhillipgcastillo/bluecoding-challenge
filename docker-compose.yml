@@ -22,17 +22,17 @@ services:
     stdin_open: true
     tty: true
   
-  server:
+  backend:
     image: node:18.19.0
     build:
-      context: ./server
+      context: ./backend
       # dockerfile: Dockerfile
     ports:
       - 5000:5000
     networks:
       - mern-network
     volumes:
-      - ./server/src:/usr/app/src
+      - ./backend/src:/usr/app/src
     depends_on:
       - db
     environment:
