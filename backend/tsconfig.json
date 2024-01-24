@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
     "strict": true,
     "allowJs": true,
-    "outDir": "./dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true
   },
-  // "files": ["src/index.ts"],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
