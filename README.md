@@ -40,6 +40,7 @@ then go to [backend](http://localhost:8080)
 
 ### *Routes*
 - `/` method `get` will give us the top 100 urls
+- `/shorts` method `get` will give us the top 100 shortened urls
 - `/shortener` method `post` will create a new short link
     - request data 
         ```typescript

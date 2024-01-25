@@ -39,7 +39,8 @@ shortenerRouter.get("/s/:id", (req: Request, res: Response) => {
     LinkModel.findById(linkId)
         .then((linkDoc) => {
             if (linkDoc) {
-                res.status(200).json({ url: linkDoc.url });
+                // res.status(200).json({ url: linkDoc.url });
+                res.status(300).redirect(linkDoc.url);
             }
         })
         .catch((err) => {
