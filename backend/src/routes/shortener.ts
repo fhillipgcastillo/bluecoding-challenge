@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { ILink, LinkModel } from "../models/Links.model";
 import { IShortenLink, ShortenLinkModel } from "../models/ShortenLinks.model";
-import { Schema, Types } from "mongoose";
 
 const shortenerRouter = Router();
 
@@ -50,6 +49,12 @@ shortenerRouter.get("/s/:id", (req: Request, res: Response) => {
 
 shortenerRouter.get("/", (req: Request, res: Response) => {
     return LinkModel.find({})
+        .limit(100)
+        .then(links => res.json(links));
+});
+shortenerRouter.get("/shorts", (req: Request, res: Response) => {
+    return ShortenLinkModel.find({})
+        .populate("link")
         .limit(100)
         .then(links => res.json(links));
 });

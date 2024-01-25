@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document, Types } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 // Document interface
 // No need to define TS interface any more.
 // interface User {
@@ -10,11 +10,11 @@ import { model, Schema, Model, Document, Types } from 'mongoose';
 
 // 1. Create an interface representing a document in MongoDB.
 interface IUser {
-    name: string;
-    email: string;
-    // Use `Types.ObjectId` in document interface...
-    organization: Types.ObjectId;
-  }
+  name: string;
+  email: string;
+  // Use `Types.ObjectId` in document interface...
+  organization: Types.ObjectId;
+}
 
 // Schema
 // 2. Create a Schema corresponding to the document interface.
@@ -28,9 +28,9 @@ const userSchema = new Schema<IUser>({
 // 3. Create a Model.
 const UserModel = model<IUser>('User', userSchema);
 
-export { 
-    IUser,
-    userSchema
+export {
+  IUser,
+  userSchema
 };
 
 export default UserModel;
