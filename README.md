@@ -4,6 +4,7 @@ This project uses Mongo DB
 first copy the .env.example as .env
 ```bash
 cp .env.example .env
+cp .env.example backend/.env
 ```
 
 **Modify the .env content or leave as is**
