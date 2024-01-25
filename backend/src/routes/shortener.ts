@@ -1,33 +1,37 @@
 import { Router, Request, Response } from "express";
 import { ILink, LinkModel } from "../models/Links.model";
 import { IShortenLink, ShortenLinkModel } from "../models/ShortenLinks.model";
-// import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 
 const shortenerRouter = Router();
 
 shortenerRouter.post("/shortener", async (req: Request, res: Response) => {
-    const ilink = req.body as ILink;
+    const linkData: ILink = {
+        url: req.body.url
+    }
 
-
-    const newLink = new LinkModel(ilink);
+    const newLink = new LinkModel(linkData);
     const error = newLink.validateSync();
 
     if (error) {
         return res.status(422).send({ error })
     }
 
-    return newLink.save()
-        .then(() => {
-            const data: IShortenLink = {
-                title: "",
-                link: newLink,
-                shortenLink: `http://${req.get("host")}/s/${newLink._id.toString()}`
-            };
-            // const shorten = new ShortenLinkModel(data);
-            // shorten.save();
+    await newLink.save();
 
-            res.status(201).json(data);
-        });
+    const slData: IShortenLink = {
+        title: "",
+        link: newLink,
+        shortenLink: `http://${req.get("host")}/s/${newLink._id.toString()}`
+    };
+
+    const shorten = new ShortenLinkModel(slData);
+    await shorten.save();
+
+    res.status(201).json({
+        _id: shorten._id,
+        shortLink: shorten.shortenLink,
+    });
 
 });
 
@@ -35,8 +39,9 @@ shortenerRouter.get("/s/:id", (req: Request, res: Response) => {
     const linkId = req.params.id;
     LinkModel.findById(linkId)
         .then((linkDoc) => {
-            if (linkDoc)
-                res.status(200).json({ link: linkDoc.link });
+            if (linkDoc) {
+                res.status(200).json({ url: linkDoc.url });
+            }
         })
         .catch((err) => {
             res.status(422).json({ error: err });

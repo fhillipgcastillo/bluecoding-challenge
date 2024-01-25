@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
 
 export interface ILink {
-    link: string;
+    url: string;
 }
 
 export const LinkSchema = new Schema<ILink>({
-    link: {
+    url: {
         type: String,
         require: true
     }

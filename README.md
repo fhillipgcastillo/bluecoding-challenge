@@ -29,16 +29,6 @@ docker compose up -d mongo mongo-express
 * `mongo-express` - is a Web UI simple admin for the mongo db server
 
 
-# Front-end
-
-```bash
-cd frontent/
-npm i
-npm start
-```
-then go to [http://localhost:3000](frontend)
-
-
 # Back-end
 
 ```bash
@@ -46,4 +36,34 @@ cd backend/
 npm i
 npm start
 ```
-then go to [http://localhost:8080](backend)
+then go to [backend](http://localhost:8080)
+
+### *Routes*
+- `/` method `get` will give us the top 100 urls
+- `/shortener` method `post` will create a new short link
+    - request data 
+        ```typescript
+        {
+            "link": string
+        }
+        ```
+    - respose data
+        ```typescript
+        {
+            "title": string,
+            "link": OriginalLinkInfo,
+            "shortenLink": string, //Shorten link
+        }
+- `/s/:id` method `get` will give us the full link
+        ```
+
+
+# Front-end
+
+```bash
+cd frontent/
+npm i
+npm start
+```
+then go to [frontend](http://localhost:3000)
+

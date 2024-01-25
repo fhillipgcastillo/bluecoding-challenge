@@ -22,6 +22,6 @@ export const ShortenLinkSchema = new Schema<IShortenLink>({
     }
 });
 
-export const ShortenLinkModel = model<IShortenLink>("Link", ShortenLinkSchema);
+export const ShortenLinkModel = model<IShortenLink>("ShortenLink", ShortenLinkSchema);
 
 
