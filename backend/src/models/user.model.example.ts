@@ -1,5 +1,4 @@
-import mongoose, { Schema, InferSchemaType } from 'mongoose';
-
+import { model, Schema, Model, Document, Types } from 'mongoose';
 // Document interface
 // No need to define TS interface any more.
 // interface User {
@@ -8,29 +7,30 @@ import mongoose, { Schema, InferSchemaType } from 'mongoose';
 //   avatar?: string;
 // }
 
+
+// 1. Create an interface representing a document in MongoDB.
+interface IUser {
+    name: string;
+    email: string;
+    // Use `Types.ObjectId` in document interface...
+    organization: Types.ObjectId;
+  }
+
 // Schema
-const userSchema = new Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    avatar: String
+// 2. Create a Schema corresponding to the document interface.
+const userSchema = new Schema<IUser>({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  // And `Schema.Types.ObjectId` in the schema definition.
+  organization: { type: Schema.Types.ObjectId, ref: 'Organization' }
 });
 
-type User = InferSchemaType<typeof userSchema>;
-
-
-// InferSchemaType will determine the type as follows:
-// type User = {
-//   name: string;
-//   email: string;
-//   avatar?: string;
-// }
-
-// `UserModel` will have `name: string`, etc.
-const UserModel = mongoose.model('User', userSchema);
+// 3. Create a Model.
+const UserModel = model<IUser>('User', userSchema);
 
 export { 
-    userSchema,
-    User
+    IUser,
+    userSchema
 };
 
 export default UserModel;
