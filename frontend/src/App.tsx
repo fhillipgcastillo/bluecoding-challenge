@@ -39,8 +39,8 @@ function App() {
   const shorten = async () => {
     const url = linkRef.current?.value.trim();
     if (url) {
-      createShortLink(url).then((data) => {
-        setShortenUrl(data);
+      createShortLink(url).then(() => {
+        refreshShortenLinks();
       })
     }
   }
@@ -66,6 +66,7 @@ function App() {
         {shortenLinks &&
           <div>
             <h2>Top shortlinks</h2>
+            <button onClick={async () => refreshShortenLinks()}>Refresh</button>
             {
               shortenLinks.map((link) => (
                 <div key={link._id}>
