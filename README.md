@@ -28,7 +28,6 @@ docker compose up -d mongo mongo-express
 * `mongo` - runs the mongo db server
 * `mongo-express` - is a Web UI simple admin for the mongo db server
 
-# 
 
 # Front-end
 

@@ -52,7 +52,11 @@ async function main() {
     });
     await user.save();
 
-    console.log(user);
+    console.log("created dumb test user");
+    console.log("querying")
+    
+    const users = await UserModel.find({})
+    console.log("users found", users);
 }
 
 
