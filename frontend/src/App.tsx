@@ -1,43 +1,48 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import { createShortLink, getShortLinks } from './services/apiFetcher';
 
 interface LinkResponse {
   _id: string;
   shortLink: string;
 }
+
+interface ILink {
+  _id: string;
+  url: string;
+}
+interface IShortenLink {
+  _id: string;
+  title?: string;
+  link: ILink;
+  shortenLink: string;
+}
+
 function App() {
   const linkRef = useRef<HTMLInputElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [shortenUrl, setShortenUrl] = useState<LinkResponse | null>(null)
+  const [shortenLinks, setShortenLink] = useState<IShortenLink[]>([]);
 
   useLayoutEffect(() => {
+    refreshShortenLinks()
+  }, []);
 
+  const refreshShortenLinks = async () => {
+    await getShortLinks()
+      .then((data) => {
+        setShortenLink(data)
+      })
+  }
 
-
-  }, [])
   const shorten = async () => {
     const url = linkRef.current?.value.trim();
-
-    await fetch("http://localhost:8080/shortener",
-      {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify({ url }), // body data type must match "Content-Type" header
-      }
-    )
-      .then(r => r.json())
-      .then((data) => {
+    if (url) {
+      createShortLink(url).then((data) => {
         setShortenUrl(data);
       })
+    }
   }
   return (
     <div className="App">
@@ -57,6 +62,20 @@ function App() {
           <label>id {shortenUrl?._id}</label>
           <label>id <a href={shortenUrl.shortLink}>{shortenUrl.shortLink}</a></label>
         </div>}
+
+        {shortenLinks &&
+          <div>
+            <h2>Top shortlinks</h2>
+            {
+              shortenLinks.map((link) => (
+                <div key={link._id}>
+                  <label>{link.title || "N/A"}</label>
+                  <a href={link.link.url}>{link.shortenLink}</a>
+                </div>
+              )
+              )}
+          </div>
+        }
       </header>
     </div>
   );
