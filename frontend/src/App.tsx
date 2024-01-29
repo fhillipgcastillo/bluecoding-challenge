@@ -3,11 +3,6 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import './App.css';
 import { createShortLink, getShortLinks } from './services/apiFetcher';
 
-interface LinkResponse {
-  _id: string;
-  shortLink: string;
-}
-
 interface ILink {
   _id: string;
   url: string;
@@ -21,8 +16,6 @@ interface IShortenLink {
 
 function App() {
   const linkRef = useRef<HTMLInputElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [shortenUrl, setShortenUrl] = useState<LinkResponse | null>(null)
   const [shortenLinks, setShortenLink] = useState<IShortenLink[]>([]);
 
   useLayoutEffect(() => {
@@ -52,24 +45,22 @@ function App() {
             display: "flex",
             flexDirection: "column",
             gap: "10px",
+            alignItems: "center",
+            height: "50vh"
           }}
         >
-          <label htmlFor="link">Short Link</label>
+          <h1>Short Link</h1>
           <input id='link' placeholder='https://google.com' ref={linkRef} />
-          <button onClick={shorten}>Shorten</button>
+          <button className='button' onClick={shorten}>Shorten</button>
         </div>
-        {shortenUrl && <div>
-          <label>id {shortenUrl?._id}</label>
-          <label>id <a href={shortenUrl.shortLink}>{shortenUrl.shortLink}</a></label>
-        </div>}
 
         {shortenLinks &&
           <div>
             <h2>Top shortlinks</h2>
-            <button onClick={async () => refreshShortenLinks()}>Refresh</button>
+            <button className='button' onClick={async () => refreshShortenLinks()}>Refresh</button>
             {
               shortenLinks.map((link) => (
-                <div key={link._id}>
+                <div key={link._id} style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
                   <label>{link.title || "N/A"}</label>
                   <a href={link.link.url}>{link.shortenLink}</a>
                 </div>
