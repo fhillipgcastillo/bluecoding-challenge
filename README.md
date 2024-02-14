@@ -1,3 +1,7 @@
+# Project
+This project was a dev tech challenge for bluecoding
+
+
 #  DB
 This project uses Mongo DB
 
